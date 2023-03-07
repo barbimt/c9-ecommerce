@@ -4,25 +4,21 @@ import { TyC, TyCsAPIResponse } from "../types";
 import styles from "../styles/TYC.module.css";
 import Head from "next/head";
 
-// Por ahora estamos utilizando data mockeada, pero
-// debemos reemplazar esto por información proveniente de la
-// API
-export const data: TyCsAPIResponse = {
-  version: "3 de julio, 2022",
+type Tyc = {
+  version: string,
   tycs: [
-    {
-      id: 1,
-      title: "General",
-      description: `Tienda Libre es una compañía que ofrece servicios vinculados principalmente al comercio electrónico. 
-                    Los servicios están diseñados para formar un ecosistema que permita a las personas vender, 
-                    comprar, pagar, enviar productos y realizar otras actividades comerciales con tecnología aplicada.`,
-    },
-  ],
+    { id: number, 
+      title: string, 
+      description: string 
+    }
+    ];
 };
 
-const TerminosYCondiciones: NextPage = () => {
-  if (!data) return null;
+export interface IProps {
+  data: Tyc;
+}
 
+const TerminosYCondiciones: NextPage<IProps> = ({ data }) => {
   const { version, tycs } = data;
 
   const renderTyc: (tyc: TyC) => JSX.Element = ({ id, description, title }) => (
@@ -50,5 +46,15 @@ const TerminosYCondiciones: NextPage = () => {
 
 // Aquí debemos agregar el método para obtener la información
 // de la API
+
+export async function getStaticProps() {
+  const response = await fetch("https://c9-ecommerce.vercel.app/api/tycs");
+
+  const data = await response.json();
+
+  return {
+    props: { data: data },
+  };
+}
 
 export default TerminosYCondiciones;
