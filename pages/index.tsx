@@ -86,7 +86,7 @@ const Home =({products}: Props)  => {
 // Aquí debemos agregar el método para obtener la información
 // de la API
 export const getServerSideProps = async () => {
-  const res = await fetch("https://c9-ecommerce.vercel.app/api/products")
+  const res = await fetch(process.env.INTERNAL_API_BASE_URL+"/products")
   const products: Product[] = await res.json()
   return { 
     props: { products }

@@ -48,7 +48,7 @@ const TerminosYCondiciones: NextPage<IProps> = ({ data }) => {
 // de la API
 
 export async function getStaticProps() {
-  const response = await fetch("https://c9-ecommerce.vercel.app/api/tycs");
+  const response = await fetch(process.env.INTERNAL_API_BASE_URL+"/tycs");
 
   const data = await response.json();
 
